@@ -10,6 +10,16 @@
             you can init this in Global.asax.cs, by using `Jrz.WebPushHelper.FirebaseServerKey = "[your server key]"`
             </summary>
         </member>
+        <member name="F:Jrz.WebPushHelper.ANDROID_GCM_ENDPOINT">
+            <summary>
+            Android GCM endpoint
+            </summary>
+        </member>
+        <member name="F:Jrz.WebPushHelper.FIREBASE_FCM_ENDPOINT">
+            <summary>
+            Firebase FCM endpoint
+            </summary>
+        </member>
         <member name="M:Jrz.WebPushHelper.SendNotification(System.Byte[],Jrz.JsonSubscription,System.Int32,System.UInt16,System.Boolean)">
             <summary>
             Send push notification
