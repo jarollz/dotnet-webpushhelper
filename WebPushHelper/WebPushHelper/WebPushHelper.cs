@@ -116,11 +116,12 @@ namespace Jrz {
         /// <returns>True if sent successfully</returns>
         public static bool SendNotification(byte[] data, string endpoint, byte[] userKey, byte[] userSecret,
                                         int ttl = 0, ushort padding = 0, bool randomisePadding = false) {
-            HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Post, endpoint);
+            var modifiedEndpoint = endpoint;
             if (endpoint.StartsWith(ANDROID_GCM_ENDPOINT)) {
-                endpoint = endpoint.Replace(ANDROID_GCM_ENDPOINT, FIREBASE_FCM_ENDPOINT);
+                modifiedEndpoint = endpoint.Replace(ANDROID_GCM_ENDPOINT, FIREBASE_FCM_ENDPOINT);
             }
-            if (endpoint.StartsWith(FIREBASE_FCM_ENDPOINT)) {
+            HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Post, modifiedEndpoint);
+            if (modifiedEndpoint.StartsWith(FIREBASE_FCM_ENDPOINT)) {
                 Request.Headers.TryAddWithoutValidation("Authorization", "key=" + FirebaseServerKey);
             }
             Request.Headers.Add("TTL", ttl.ToString());
