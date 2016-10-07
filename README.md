@@ -62,9 +62,11 @@ Inspired by [this StackOverlow answer](http://stackoverflow.com/a/39839330/42600
     *  Set your FCM server key in `Web.config` right at `appSettings["FirebaseServerKey"]`
     *  Set your sender id in `manifest.json` right at `gcm_sender_id`
 
-## Dev Env ##
+## Dev Env & Libs ##
 
 -  Visual Studio 2015
 -  .NET Framework 4.5.2
 -  ASP .NET MVC 5
 -  nodeJS v6.5.0 (npm v3.10.3)
+-  Nuget package BouncyCastle
+-  Nuget package Microsoft.AspNetCore.WebUtilities
