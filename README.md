@@ -5,7 +5,7 @@ The purpose of this being built is to ease sending push notification to a web ap
 with payload data which to be successful would require encryption technique that's
 not easy for the faint of heart.
 
-Inspired by [this StackOverlow answer](http://stackoverflow.com/a/39839330/426000).
+Inspired by [this StackOverflow answer](http://stackoverflow.com/a/39839330/426000).
 
 ## Usage in ASP .NET app ##
 
