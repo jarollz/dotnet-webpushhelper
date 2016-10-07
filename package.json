@@ -1,0 +1,16 @@
+{
+  "name": "jrz-webpushhelper-nodehelper",
+  "version": "1.0.0",
+  "description": "Node helper for Jrz.WebPushHelper .NET library",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Roland L. B.",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-concat": "^2.6.0",
+    "sw-precache": "^4.1.0"
+  }
+}

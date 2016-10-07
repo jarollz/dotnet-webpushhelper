@@ -1,0 +1,9 @@
+﻿{
+    "short_name": "Web Tester for Push",
+    "name": "Web Tester for Push",
+    "start_url": "/",
+    "gcm_sender_id": "674203482507",
+    "permissions": [
+        "gcm","storage"
+    ]
+}
