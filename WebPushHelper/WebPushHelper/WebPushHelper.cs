@@ -51,6 +51,17 @@ namespace Jrz {
         public static string FirebaseServerKey = "";
 
         /// <summary>
+        /// Android GCM endpoint
+        /// </summary>
+        public const string ANDROID_GCM_ENDPOINT = "https://android.googleapis.com/gcm/send/";
+
+
+        /// <summary>
+        /// Firebase FCM endpoint
+        /// </summary>
+        public const string FIREBASE_FCM_ENDPOINT = "https://fcm.googleapis.com/fcm/send/";
+
+        /// <summary>
         /// Send push notification
         /// </summary>
         /// <param name="data">Data as byte array</param>
@@ -106,9 +117,12 @@ namespace Jrz {
         public static bool SendNotification(byte[] data, string endpoint, byte[] userKey, byte[] userSecret,
                                         int ttl = 0, ushort padding = 0, bool randomisePadding = false) {
             HttpRequestMessage Request = new HttpRequestMessage(HttpMethod.Post, endpoint);
-            if (endpoint.StartsWith("https://android.googleapis.com/gcm/send/") ||
-                endpoint.StartsWith("https://fcm.googleapis.com/fcm/send/"))
+            if (endpoint.StartsWith(ANDROID_GCM_ENDPOINT)) {
+                endpoint = endpoint.Replace(ANDROID_GCM_ENDPOINT, FIREBASE_FCM_ENDPOINT);
+            }
+            if (endpoint.StartsWith(FIREBASE_FCM_ENDPOINT)) {
                 Request.Headers.TryAddWithoutValidation("Authorization", "key=" + FirebaseServerKey);
+            }
             Request.Headers.Add("TTL", ttl.ToString());
             if (data != null && userKey != null && userSecret != null) {
                 EncryptionResult Package = EncryptMessage(userKey, userSecret, data, padding, randomisePadding);
