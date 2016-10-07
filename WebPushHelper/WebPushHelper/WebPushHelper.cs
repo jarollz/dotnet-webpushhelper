@@ -158,20 +158,6 @@ namespace Jrz {
             public byte[] Salt { get; set; }
         }
 
-        /// <summary>
-        /// The push subscription object representation
-        /// </summary>
-        public class JsonSubscription {
-            /// <summary>
-            /// Endpoint url, it's something like `http://fcm.googleapis.com/fcm/send/[registration-id]`
-            /// </summary>
-            public string endpoint { get; set; }
-            /// <summary>
-            /// The crypto keys, in case of Firebase, this dictionary should have `keys["p256dh"]` and `keys["auth"]`
-            /// </summary>
-            public Dictionary<string, string> keys { get; set; }
-        }
-
         public static byte[] ConvertInt(int number) {
             byte[] Output = BitConverter.GetBytes(Convert.ToUInt16(number));
             if (BitConverter.IsLittleEndian) Array.Reverse(Output);
@@ -197,6 +183,19 @@ namespace Jrz {
             if (Result.Length > len) Array.Resize(ref Result, len);
             return Result;
         }
+    }
 
+    /// <summary>
+    /// The push subscription object representation
+    /// </summary>
+    public class JsonSubscription {
+        /// <summary>
+        /// Endpoint url, it's something like `http://fcm.googleapis.com/fcm/send/[registration-id]`
+        /// </summary>
+        public string endpoint { get; set; }
+        /// <summary>
+        /// The crypto keys, in case of Firebase, this dictionary should have `keys["p256dh"]` and `keys["auth"]`
+        /// </summary>
+        public Dictionary<string, string> keys { get; set; }
     }
 }

@@ -5,7 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
-using static Jrz.WebPushHelper;
+using Jrz;
 
 namespace WebTester.Controllers {
     [RoutePrefix("api/PushNotification")]
