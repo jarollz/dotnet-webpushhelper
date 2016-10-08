@@ -21,8 +21,7 @@ self.addEventListener("push", function (event) {
     };
 
     if (event.data) {
-        var payload = event.data.json();
-        data.body = JSON.stringify(payload);
+        data.body = event.data.text();
     }
 
     event.waitUntil(

@@ -15,37 +15,48 @@
     @Html.AntiForgeryToken()
 
     <div class="form-group">
-        <label for="@Html.IdFor(m=>m.PayloadJson)">@Html.DisplayNameFor(m=>m.PayloadJson)</label>
-        <textarea name="@Html.NameFor(m=>m.PayloadJson)" id="@Html.IdFor(m=>m.PayloadJson)"class="form-control" rows="20"></textarea>
+        <label for="@Html.IdFor(m=>m.PayloadJson)">@Html.DisplayNameFor(m => m.PayloadJson)</label>
+        <textarea name="@Html.NameFor(m=>m.PayloadJson)" id="@Html.IdFor(m=>m.PayloadJson)" class="form-control" rows="20"></textarea>
         <div class="text-danger"><strong>@Html.ValidationMessageFor(m => m.PayloadJson)</strong></div>
     </div>
     <div class="form-group">
-        <label for="@Html.IdFor(m=>m.Endpoints)">@Html.DisplayNameFor(m => m.Endpoints)
-            <em class="small text-info">if the following is empty, refresh the page.</em>
-        </label>
+        <label for="@Html.IdFor(m=>m.Endpoints)">
+            @Html.DisplayNameFor(m => m.Endpoints)
+        <em class="small text-info">if the following is empty, refresh the page.</em>
+    </label>
 
-        <div class="checkbox">
-            @foreach (var ep in Model.Endpoints) {
-                <label>
-                    <input type="checkbox" name="@(Html.NameFor(m=>m.Endpoints))[@ep.Key]" value="@true.ToString()" />
-                    <small>@ep.Key</small>
-                </label>
-            }
-            <div class="text-danger"><strong>@Html.ValidationMessageFor(m => m.Endpoints)</strong></div>
-        </div>
-    </div>
+    <table class="table table-condensed">
+        @foreach (var ep in Model.Endpoints) {
+            <tr>
+                <td>
+                    <input type="checkbox" name="@(Html.NameFor(m=>m.Endpoints))[@ep.Key]" id="@(Html.IdFor(m=>m.Endpoints))[@ep.Key]" value="@true.ToString()" />
+                </td>
+                <td>
+                    <textarea class="form-control" readonly rows="3">@ep.Key</textarea>
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="text-danger"><strong>@Html.ValidationMessageFor(m => m.Endpoints)</strong></div>
+</div>
 
-    <button class="btn btn-primary" type="submit">Submit</button>
+<button class="btn btn-primary" type="submit">Submit</button>
 </form>
 
 @if (Model.PushResults != null && Model.PushResults.Count > 0) {
     <h2>Push Results</h2>
     <div>
-        @foreach (var pr in Model.PushResults) {
-            <p>
-                <strong>@pr.Key</strong><br/>
-                @pr.Value
-            </p>
-        }
+        <table class="table table-condensed">
+            @foreach (var pr in Model.PushResults) {
+                <tr>
+                    <td>
+                        <textarea class="form-control" readonly rows="3">@pr.Key</textarea>
+                    </td>
+                    <td>
+                        <strong>@pr.Value</strong>
+                    </td>
+                </tr>
+            }
+        </table>
     </div>
 }

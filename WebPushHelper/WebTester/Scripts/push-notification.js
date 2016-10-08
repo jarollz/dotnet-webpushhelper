@@ -54,7 +54,7 @@ function __unsubscribePush() {
       }).then(function (subscription) {
           //If no `push subscription`, then return
           if (!subscription) {
-              console.error('Unable to unregister push notification.');
+              //console.error('Unable to unregister push notification.');
               return "no-subscription";
           }
 
@@ -64,10 +64,10 @@ function __unsubscribePush() {
           if (prop === "no-subscription") {
               return prop;
           }
-          console.info('Push notification unsubscribed.');
+          //console.info('Push notification unsubscribed.');
           return "unsubscribed";
       }).catch(function (error) {
-          console.error('Failed to unsubscribe push notification.');
+          //console.error('Failed to unsubscribe push notification.');
           return "error";
       });
 }
@@ -77,13 +77,13 @@ function __isPushSupported() {
     //Check `push notification` is supported or not
     if (!('PushManager' in window)) {
         //console.error('Push notification isn\'t supported in your browser.');
-        return new Promise(function () { return "unsupported"; });
+        return new Promise(function (resolve) { resolve("unsupported"); });
     }
 
     //To check `push notification` permission is denied by user
     if (Notification.permission === 'denied') {
         //console.warn('User has blocked push notification.');
-        return new Promise(function () { return "denied"; });
+        return new Promise(function (resolve) { resolve("denied"); });
     }
 
     //Get `push notification` subscription
@@ -95,8 +95,6 @@ function __isPushSupported() {
           //If already access granted, enable push button status
           if (subscription) {
               //console.info("Push notification GRANTED");
-              console.info("Push subscription object:", subscription);
-              console.info("Push notification registration id:", subscription.endpoint.substr(subscription.endpoint.lastIndexOf("/") + 1));
               return "subscribed";
           }
           else {
@@ -104,7 +102,7 @@ function __isPushSupported() {
               return "unsubscribed";
           }
       }).catch(function (error) {
-          console.error('Error occurred while enabling push ', error);
+          //console.error('Error occurred while enabling push ', error);
           return "error";
       });
 }

@@ -54,10 +54,10 @@ namespace WebTester.Controllers {
 
             mdl.Endpoints = new Dictionary<string, bool>();
             foreach (var ep in allEndpoints) {
-                mdl.Endpoints.Add(ep, (
-                    sentEndpoints != null && sentEndpoints.ContainsKey(ep) ? sentEndpoints[ep] : false
-                    ));
+                mdl.Endpoints.Add(ep, ((sentEndpoints != null && sentEndpoints.ContainsKey(ep)) ? sentEndpoints[ep] : false));
             }
+
+            mdl.PushResults = pushResults;
 
             return View(mdl);
         }
