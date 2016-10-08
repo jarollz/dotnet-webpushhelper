@@ -13,7 +13,7 @@ Inspired by [this StackOverflow answer](http://stackoverflow.com/a/39839330/4260
 2.  In `Global.asax.cs` right in `Application_Start` method, add the statement:
     
     ```
-    Jrz.WebPushHelper.FirebaseServerKey = "... your FCM server key ..."
+    WebPushHelper.PushNotifier.FirebaseServerKey = "... your FCM server key ..."
     ```
 
 3.  To send push notification, you can do it like:
@@ -30,10 +30,10 @@ Inspired by [this StackOverflow answer](http://stackoverflow.com/a/39839330/4260
         }
         ```
 
-    -   Create a `Jrz.JsonSubscription` instance using the above subscription JSON:
+    -   Create a `WebPushHelper.JsonSubscription` instance using the above subscription JSON:
 
         ```
-        var sub = new Jrz.JsonSubscription() {
+        var sub = new WebPushHelper.JsonSubscription() {
             endpoint = subJson.endpoint.ToString(),
             keys = new Dictionary<string,string>() {
                 { "p256dh", subJson.keys.p256dh.ToString() },
@@ -52,10 +52,10 @@ Inspired by [this StackOverflow answer](http://stackoverflow.com/a/39839330/4260
     -   Now, to send push notification with payload:
         
         ```
-        bool isSendPushSuccess = Jrz.WebPushHelper.SendNotification(payload, sub);
+        bool isSendPushSuccess = WebPushHelper.PushNotifier.SendNotification(payload, sub);
         ```
 
-4.  Peruse `Jrz.WebPushHelper` and `Jrz.JsonSubscription` class in Visual Studio object browser to know
+4.  Peruse `WebPushHelper.PushNotifier` and `WebPushHelper.JsonSubscription` class in Visual Studio object browser to know
     more, especially other overloads of the `SendNotification` method.
 5.  You can also open `WebPushHelper/WebPushHelper.sln` in Visual Studio 2015 and run the `WebTester` project
     to see push notification in action. However make sure to use your own FCM server key and sender id, please :D.

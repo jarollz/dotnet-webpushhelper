@@ -41,8 +41,8 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 
-namespace Jrz {
-    public class WebPushHelper {
+namespace WebPushHelper {
+    public class PushNotifier {
 
         /// <summary>
         /// Firebase Cloud Messaging Server Key, initialize this on app start. If in ASP .NET web app,

@@ -1,10 +1,10 @@
-﻿using Jrz;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+using WebPushHelper;
 using WebTester.Models;
 
 namespace WebTester.Controllers {
@@ -41,7 +41,7 @@ namespace WebTester.Controllers {
                             pushResults.Add(ce.Key, "Invalid endpoint");
                         } else {
                             // the real magic here...
-                            var result = WebPushHelper.SendNotification(Encoding.UTF8.GetBytes(mdl.PayloadJson), subscription);
+                            var result = PushNotifier.SendNotification(Encoding.UTF8.GetBytes(mdl.PayloadJson), subscription);
                             if (result) {
                                 pushResults.Add(ce.Key, "Success");
                             } else {

@@ -21,7 +21,7 @@ namespace WebTester
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             // Setup WebPushHelper
-            Jrz.WebPushHelper.FirebaseServerKey = WebConfigurationManager.AppSettings["FirebaseServerKey"];
+            WebPushHelper.PushNotifier.FirebaseServerKey = WebConfigurationManager.AppSettings["FirebaseServerKey"];
         }
     }
 }
