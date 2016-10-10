@@ -42,6 +42,9 @@ using System.Net.Http.Headers;
 using System.Text;
 
 namespace WebPushHelper {
+    /// <summary>
+    /// The class that's responsible to send push notification to web app with encryption
+    /// </summary>
     public class PushNotifier {
 
         /// <summary>
