@@ -51,7 +51,19 @@ namespace WebPushHelper {
         /// Firebase Cloud Messaging Server Key, initialize this on app start. If in ASP .NET web app,
         /// you can init this in Global.asax.cs, by using `Jrz.WebPushHelper.FirebaseServerKey = "[your server key]"`
         /// </summary>
-        public static string FirebaseServerKey = "";
+        public static string FirebaseServerKey {
+            get {
+                if (_FirebaseServerKey == null || _FirebaseServerKey.Length == 0) {
+                    throw new InvalidOperationException("WebPushHelper.PushNotifier requires its .FirebaseServerKey property to be set to non-empty string before usage.");
+                }
+                return _FirebaseServerKey;
+            }
+            set {
+                _FirebaseServerKey = value;
+            }
+        }
+
+        private static string _FirebaseServerKey = null;
 
         /// <summary>
         /// Android GCM endpoint
