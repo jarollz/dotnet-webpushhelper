@@ -99,6 +99,48 @@ namespace WebPushHelper {
         /// <summary>
         /// Send push notification
         /// </summary>
+        /// <param name="data">Data as byte array</param>
+        /// <param name="sub">Push subscription object, <see cref="JsonSubscription"/></param>
+        /// <param name="ttl">Time to live</param>
+        /// <param name="padding">Padding</param>
+        /// <param name="randomisePadding">Whether to randomize padding or not</param>
+        /// <returns>HttpResponseMessage</returns>
+        public static HttpResponseMessage SendNotificationAndGetResponse(byte[] data, JsonSubscription sub, int ttl = 0, ushort padding = 0,
+                                            bool randomisePadding = false) {
+            return SendNotificationAndGetResponse(endpoint: sub.endpoint,
+                                    data: data,
+                                    userKey: WebEncoders.Base64UrlDecode(sub.keys["p256dh"]),
+                                    userSecret: WebEncoders.Base64UrlDecode(sub.keys["auth"]),
+                                    ttl: ttl,
+                                    padding: padding,
+                                    randomisePadding: randomisePadding);
+        }
+
+        /// <summary>
+        /// Send push notification
+        /// </summary>
+        /// <param name="data">Data as string</param>
+        /// <param name="endpoint">Endpoint url, it's something like `http://fcm.googleapis.com/fcm/send/[registration-id]`</param>
+        /// <param name="userKey">The Base64-URL-Safe encoded user key, or in case of Firebase [PushSubscriptionObject].keys.p256dh</param>
+        /// <param name="userSecret">The Base64-URL-Safe encoded user secret, or in case of Firebase [PushSubscriptionObject].keys.auth</param>
+        /// <param name="ttl">Time to live</param>
+        /// <param name="padding">Padding</param>
+        /// <param name="randomisePadding">Whether to randomize padding or not</param>
+        /// <returns>HttpResponseMessage</returns>
+        public static HttpResponseMessage SendNotificationAndGetResponse(string data, string endpoint, string userKey, string userSecret,
+                                            int ttl = 0, ushort padding = 0, bool randomisePadding = false) {
+            return SendNotificationAndGetResponse(endpoint: endpoint,
+                                    data: Encoding.UTF8.GetBytes(data),
+                                    userKey: WebEncoders.Base64UrlDecode(userKey),
+                                    userSecret: WebEncoders.Base64UrlDecode(userSecret),
+                                    ttl: ttl,
+                                    padding: padding,
+                                    randomisePadding: randomisePadding);
+        }
+
+        /// <summary>
+        /// Send push notification
+        /// </summary>
         /// <param name="data">Data as string</param>
         /// <param name="endpoint">Endpoint url, it's something like `http://fcm.googleapis.com/fcm/send/[registration-id]`</param>
         /// <param name="userKey">The Base64-URL-Safe encoded user key, or in case of Firebase [PushSubscriptionObject].keys.p256dh</param>
@@ -131,6 +173,23 @@ namespace WebPushHelper {
         /// <returns>True if sent successfully</returns>
         public static bool SendNotification(byte[] data, string endpoint, byte[] userKey, byte[] userSecret,
                                         int ttl = 0, ushort padding = 0, bool randomisePadding = false) {
+            var result = SendNotificationAndGetResponse(data, endpoint, userKey, userSecret, ttl, padding, randomisePadding);
+            return result.StatusCode == HttpStatusCode.Created;
+        }
+
+        /// <summary>
+        /// Send push notification, and get HttpResponseMessage of the attempt
+        /// </summary>
+        /// <param name="data">Data as byte array</param>
+        /// <param name="endpoint">Endpoint url, it's something like `http://fcm.googleapis.com/fcm/send/[registration-id]`</param>
+        /// <param name="userKey">User key as byte array, or in case of Firebase [PushSubscriptionObject].keys.p256dh in byte array</param>
+        /// <param name="userSecret">User secret as byte array, or in case of Firebase [PushSubscriptionObject].keys.auth in byte array</param>
+        /// <param name="ttl">Time to live</param>
+        /// <param name="padding">Padding</param>
+        /// <param name="randomisePadding">Whether to randomize padding or not</param>
+        /// <returns>The HttpResponseMessage object</returns>
+        public static HttpResponseMessage SendNotificationAndGetResponse(byte[] data, string endpoint, byte[] userKey, byte[] userSecret,
+                                        int ttl = 0, ushort padding = 0, bool randomisePadding = false) {
             var modifiedEndpoint = endpoint;
             if (endpoint.StartsWith(ANDROID_GCM_ENDPOINT)) {
                 modifiedEndpoint = endpoint.Replace(ANDROID_GCM_ENDPOINT, FIREBASE_FCM_ENDPOINT);
@@ -150,7 +209,7 @@ namespace WebPushHelper {
                 Request.Headers.Add("Encryption", "keyid=p256dh;salt=" + WebEncoders.Base64UrlEncode(Package.Salt));
             }
             using (HttpClient HC = new HttpClient()) {
-                return HC.SendAsync(Request).Result.StatusCode == HttpStatusCode.Created;
+                return HC.SendAsync(Request).Result;
             }
         }
 

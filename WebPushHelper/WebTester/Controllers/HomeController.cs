@@ -41,11 +41,11 @@ namespace WebTester.Controllers {
                             pushResults.Add(ce.Key, "Invalid endpoint");
                         } else {
                             // the real magic here...
-                            var result = PushNotifier.SendNotification(Encoding.UTF8.GetBytes(mdl.PayloadJson), subscription);
-                            if (result) {
+                            var response = PushNotifier.SendNotificationAndGetResponse(Encoding.UTF8.GetBytes(mdl.PayloadJson), subscription);
+                            if (response.StatusCode == System.Net.HttpStatusCode.Created) {
                                 pushResults.Add(ce.Key, "Success");
                             } else {
-                                pushResults.Add(ce.Key, "Failure");
+                                pushResults.Add(ce.Key, "Failure;\r\n" + response.Content.ReadAsStringAsync().Result);
                             }
                         }
                     }
@@ -54,7 +54,7 @@ namespace WebTester.Controllers {
 
             mdl.Endpoints = new Dictionary<string, bool>();
             foreach (var ep in allEndpoints) {
-                mdl.Endpoints.Add(ep, ((sentEndpoints != null && sentEndpoints.ContainsKey(ep)) ? sentEndpoints[ep] : false));
+                mdl.Endpoints[ep] = (sentEndpoints != null && sentEndpoints.ContainsKey(ep)) ? sentEndpoints[ep] : false;
             }
 
             mdl.PushResults = pushResults;
